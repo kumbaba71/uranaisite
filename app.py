@@ -93,18 +93,27 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 生年月日選択
-year = st.selectbox(
-    "生まれ年",
-    list(range(1900, date.today().year + 1))[::-1]
+# ⭕ スマホで直接入力できる「ナンバーインプット形式」に変更！
+year = st.number_input(
+    "生まれ年（西暦4桁で入力してください）",
+    min_value=1900,
+    max_value=date.today().year,
+    value=1990,
+    step=1
 )
-month = st.selectbox(
-    "生まれ月",
-    list(range(1, 13))
+month = st.number_input(
+    "生まれ月（1〜12）",
+    min_value=1,
+    max_value=12,
+    value=1,
+    step=1
 )
-day = st.selectbox(
-    "生まれ日",
-    list(range(1, 32))
+day = st.number_input(
+    "生まれ日（1〜31）",
+    min_value=1,
+    max_value=31,
+    value=1,
+    step=1
 )
 
 # 日干を正確に計算する関数（基準日を1900年1月1日＝甲戌に変更）
