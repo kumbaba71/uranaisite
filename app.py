@@ -8,7 +8,7 @@ st.set_page_config(
 )
 
 # UIカスタマイズ：パステルカラーの背景、和モダンで洗練されたカードデザイン、ボタン調整
-# 文字の上が切れないように、上部の余白（padding-top）をしっかりと3rem確保しました。
+# スマホでも選択肢（1〜5の数字など）が潰れず、快適にタップできるように横幅と余白を最適化しました。
 st.markdown("""
 <style>
 /* 全体背景：東洋の自然哲学を感じさせる、温かみのある生成り色 */
@@ -42,12 +42,22 @@ h1, h2, h3 {
     color: #FFF;
 }
 
-/* 上部の表示が切れないように余白を調整 */
+/* 【スマホ最適化】横幅が狭くならないよう、100%に広げて余白を調整 */
 .block-container {
-    max-width: 480px;
+    max-width: 100% !important;
+    width: 100%;
     margin: auto;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
     padding-top: 3rem !important;
     padding-bottom: 3rem !important;
+}
+
+/* パソコンで見るときだけ、中央に程よい幅で表示させる */
+@media (min-width: 576px) {
+    .block-container {
+        max-width: 480px !important;
+    }
 }
 
 /* 結果表示カードのスタイリング（和の風合いとエレガントさの融合） */
@@ -103,10 +113,10 @@ def nikkan(d):
     diff = (d - base).days
     
     # 10種類の天干に対応
-    kanshi_index = diff % 10
+    kashi_index = diff % 10
     kan = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"]
     
-    return kan[kanshi_index]
+    return kan[kashi_index]
 
 # 日付の存在チェック（2月31日などのエラーを防止）
 try:
@@ -167,8 +177,7 @@ if is_valid_date and st.button("自分の本質を導き出す ✨"):
         "癸": "#1abc9c"   # ミスティブルーグリーン（水・陰）
     }
     
-    # 安全な埋め込み処理（f-stringによるHTMLエラーを完全に防止する設計）
-    # 丸括弧 ( ) の中で文字列を並べることで、改行やスペースが1文字も混ざらない「完全に1つのフラットなHTML行」がシステムに渡されます。
+    # 安全な埋め込み処理
     html_content = (
         "<div class=\"result-card\">"
         "<div style=\"font-size: 24px; font-weight: bold; color: #3E2723; margin-bottom: 10px;\">"
